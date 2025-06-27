@@ -1,0 +1,481 @@
+.gradient-bg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-height: 100vh;
+    padding: 1rem;
+    background: linear-gradient(to bottom right, #EDFBFB, #E8F8FD);
+}
+
+
+.start-screen {
+    position: fixed; /* 화면 전체 덮기 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7); /* 살짝 투명하게 */
+    z-index: 1000;
+}
+
+.start-card {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    text-align: center;
+    width: 300px;
+}
+
+.magnifier-icon {
+    width: 100px;
+    height: 100px;
+    background-image: url('../assets/start-icon.png'); /* 돋보기 이미지 */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 auto 20px;
+    animation: float-spin 3s ease-in-out infinite;
+}
+
+.game-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.game-description {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.start-button,
+.exit-button {
+    background-color: #11a398;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin: 10px 5px 0;
+}
+
+.start-button {
+    background-color: #1dbaa8;
+    color: white;
+}
+
+.start-button:hover {
+    background-color: #0e8c83;
+}
+
+.exit-button {
+    background-color: #eeeeee;
+    color: #333;
+}
+
+.start-subtitle {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.title {
+    text-align: center;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; /* Pretendard 폰트 적용 */
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: -15px;
+}
+
+.subtitle {
+    text-align: center;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; /* Pretendard 폰트 적용 */
+    color: #1dbaa8;
+}
+
+.life-container {
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    gap: 10px;
+    font-size: 0.5rem;
+}
+
+.life-container img {
+    width: 30px !important;
+    height: auto !important;
+}
+
+.image-box-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+}
+
+.image-box {
+    position: relative;
+    width: 45vw; /* 화면 너비의 45% */
+    height: calc(45vw * 9 / 16); /* 16:9 비율 유지 */
+    max-width: 600px; /* 너무 커지지 않게 제한 */
+    /*width: 1000px;*/
+    /*height: 500px;*/
+    /*aspect-ratio: 16 / 9;*/
+    border: 4px solid #1dbaa8;
+    border-radius: 1rem;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0px;
+}
+
+.game-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.status-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    max-width: 100%;
+}
+
+.timer-box {
+    width: 150px;
+    height: 40px;
+    background-color: #ff5c5c;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 10px;
+    margin-top: -10px;
+}
+
+.hint-box {
+    width: 150px;
+    height: 40px;
+    background-color: #70a6f8;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 10px;
+    margin-top: -10px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.hint-circle {
+    position: absolute;
+    border: 4px solid #0d9488;
+    background-color: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    box-sizing: border-box;
+    z-index: 1000;
+    border-radius: 50%;
+}
+
+.fade-hint {
+    animation: fadeOut 3s forwards;
+}
+
+.hint-box.disabled {
+    pointer-events: none; /* 마우스 이벤트를 무시함 */
+    opacity: 0.5;         /* 시각적으로 비활성화처럼 보이게 함 */
+}
+
+.game-over-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* 검은 투명 배경 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.game-over-popup {
+    background-color: white;
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.game-over-popup h2 {
+    margin-bottom: 16px;
+}
+
+.game-over-popup button {
+    margin-top: 16px;
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.gameover-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* 반투명 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+.gameover-container {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 25px;
+    text-align: center;
+    width: 400px;
+}
+
+.gameover-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.gameover-container button {
+    background-color: #11a398;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin: 10px 5px 0;
+}
+
+.gameover-container button:hover {
+    background-color: #0e8c83;
+}
+
+.sparkle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 3000;
+}
+
+.sparkle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, #ffe066 0%, #ff8c00 60%, transparent 100%);
+    border-radius: 50%;
+    animation: sparkleFall 2.5s linear forwards;
+    opacity: 0.8;
+}
+
+@keyframes sparkleFall {
+    0% {
+        transform: translateY(-10px) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 0;
+    }
+}
+
+.flower {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #ffe066 0%, #ff8c00 60%, transparent 100%);
+    border-radius: 50%;
+    animation: fall 2.5s linear forwards;
+    opacity: 0.8;
+}
+
+.flower-burst {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, #ffbb00 0%, #ff69b4 70%, transparent 100%);
+    border-radius: 50%;
+    animation: burst 0.8s ease-out forwards;
+    pointer-events: none;
+    opacity: 0.9;
+    z-index: 5000;
+}
+
+@keyframes burst {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--dx), var(--dy)) scale(0.7);
+        opacity: 0;
+    }
+}
+
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10px) rotate(0deg);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes float-spin {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(10deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+    20% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+.click-marker {
+    position: absolute;
+    border: 2px solid #ff4d4f;
+    border-radius: 50%;
+    background-color: rgba(255, 77, 79, 0.2);
+    animation: click-ping 0.6s ease-out;
+    pointer-events: none;
+    z-index: 20;
+}
+
+@keyframes click-ping {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* 클릭 마커 스타일 */
+.image-container {
+    position: relative;
+    display: inline-block;
+    width: 1000px;
+    height: 500px;
+}
+
+.click-marker {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: fadeOut 1s forwards;
+    z-index: 10;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+}
+
+.click-marker.correct {
+    background-color: rgba(46, 213, 115, 0.7);
+    box-shadow: 0 0 0 4px rgba(46, 213, 115, 0.4);
+}
+
+.click-marker.incorrect {
+    background-color: rgba(255, 71, 87, 0.7);
+    box-shadow: 0 0 0 4px rgba(255, 71, 87, 0.4);
+}
+
+/* 게임 이미지 스타일 */
+.game-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    cursor: pointer;
+}
+
+.coordinate-label {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ffffffcc;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 30;
+}
